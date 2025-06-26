@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiator Apps | Современные решения для отопления</title>
+    <style>
+        /* Глобальные переменные */
+        :root {
+            /* Светлая тема */
+            --primary: #FF4D8D;
+            --secondary: #FF85A2;
+            --dark: #A50034;
+            --light: #FFF0F5;
+            --accent: #FF6B9D;
+            --text: #333333;
+            --bg: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --border: #FFD1DC;
+            --header-text: #FFFFFF;
+            --gradient: linear-gradient(135deg, #FF4D8D 0%, #FF85A2 100%);
+            
+            /* Эффекты */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Темная тема */
+        [data-theme="dark"] {
+            --primary: #6D5DFD;
+            --secondary: #8B7DFF;
+            --dark: #3A2EC6;
+            --light: #1E1A3D;
+            --accent: #7D6AFF;
+            --text: #F0F0FF;
+            --bg: #0F0C29;
+            --card-bg: #1A1740;
+            --border: #2A266B;
+            --gradient: linear-gradient(135deg, #6D5DFD 0%, #8B7DFF 100%);
+        }
+
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Типография */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--header-text);
+            display: inline-block;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--header-text);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease;
+        }
+
+        h1:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Карточки */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Форма */
+        form {
+            margin-top: 2rem;
+        }
+
+        form p {
+            margin-bottom: 1rem;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        form input[type="text"],
+        form input[type="email"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        form input[type="text"]:focus,
+        form input[type="email"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.2);
+        }
+
+        form button[type="submit"] {
+            background: var(--gradient);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        form button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Хедер */
+        header {
+            background: var(--gradient);
+            color: var(--header-text);
+            padding: 6rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Декоративные элементы */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .blob-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -100px;
+            left: -100px;
+        }
+
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent);
+            bottom: -150px;
+            right: -100px;
+        }
+
+        /* Основной контент */
+        main {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        /* Приложения */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .app-card {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .app-card {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .app-card:nth-child(even) {
+                direction: rtl;
+            }
+            
+            .app-card:nth-child(even) > * {
+                direction: ltr;
+            }
+        }
+
+        .app-image {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .app-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .app-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .app-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .app-badge:hover {
+            transform: scale(1.1);
+            background: rgba(0,0,0,0.9);
+        }
+
+        .app-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        @media (min-width: 576px) {
+            .features-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .features-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--light);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Футер */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        .footer-links a::before {
+            content: '→';
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+            margin-right: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px) scale(1.1);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .copyright {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Переключатель темы */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            border: none;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(30deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Анимации */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                padding: 4rem 0 3rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Заглушки для изображений */
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            border-radius: 12px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Хедер -->
+    <header>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="header-container">
+            <div class="header-content">
+                <h1 class="pulse">Radiator Apps</h1>
+                <p class="header-description">Инновационные решения для учета и управления радиаторами отопления на всех платформах</p>
+                <a href="#apps" class="btn btn-primary">Посмотреть приложения</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main>
+        <!-- Секция с приложениями -->
+        <section id="apps">
+            <h2>Наши решения</h2>
+            <p>Профессиональные инструменты для работы с радиаторами отопления</p>
+            
+            <div class="app-grid">
+                <!-- Приложение для ПК -->
+                <div class="card app-card" id="pc-app">
+                    <div class="app-image floating">
+                        <img src="images/screenshots/pc-version.webp" alt="Скриншот программы для ПК">
+                        <span class="app-badge">Windows</span>
+                    </div>
+                    <div class="app-content">
+                        <div>
+                            <span class="tag">Десктоп</span>
+                            <span class="tag">Полный функционал</span>
+                        </div>
+                        <h3>Radiator Pro для ПК</h3>
+                        <p>Мощное решение для профессионального учета и управления радиаторами с удобным интерфейсом и расширенными возможностями.</p>
+                        
+                        <ul class="features-list">
+                            <li>Полный контроль данных</li>
+                            <li>Импорт/экспорт в Excel</li>
+                            <li>Гибкие настройки</li>
+                            <li>Подробная аналитика</li>
+                            <li>Фильтрация и поиск</li>
+                            <li>Кастомизация интерфейса</li>
+                        </ul>
+                        
+                        <div>
+                            <a href="https://drive.google.com/drive/folders/1H7oCL8J38Aa4Vu8CcjlrH6KMSubRhJ3f" 
+                            class="btn btn-primary" 
+                            download="RadiatorPro_Windows.exe">
+                            Скачать для Windows (v1.0, 15.4 MB)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Мобильное приложение -->
+                <div class="card app-card" id="mobile-app">
+                    <div class="app-image floating" style="animation-delay: 0.5s;">
+                        <img src="images/screenshots/mobile-version.webp" alt="Скриншот мобильного приложения">
+                        <span class="app-badge">Android</span>
+                    </div>
+                    <div class="app-content">
+                        <div>
+                            <span class="tag">Мобильное</span>
+                            <span class="tag">Удобный интерфейс</span>
+                        </div>
+                        <h3>Radiator Mobile</h3>
+                        <p>Современное приложение для работы с радиаторами в любом месте. Быстрый доступ к информации и удобное управление.</p>
+                        
+                        <ul class="features-list">
+                            <li>Просмотр характеристик</li>
+                            <li>Поиск и фильтрация</li>
+                            <li>Добавление записей</li>
+                            <li>Настройка темы</li>
+                            <li>Анимации интерфейса</li>
+                            <li>Оффлайн-доступ</li>
+                        </ul>
+                        
+                        <div>
+                            <a href="https://github.com/Kardenav/Radiators/raw/main/my-website/downloads/RadiatorApp_Android.apk" 
+                            class="btn btn-primary" 
+                            download="RadiatorApp_Android.apk"
+                            title="Начнётся загрузка APK-файла (8.7 MB)">
+                            Скачать для Android (v1.2, 8.7 MB)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- О разработчике -->
+        <section id="about">
+            <div class="card">
+                <h2>О разработчике</h2>
+                <p>Я создаю удобные и функциональные решения для повседневных задач, сочетая современные технологии с продуманным дизайном.</p>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <h3>Контакты</h3>
+                        <p>Email: toma13gg@gmail.com</p>
+                        <p>Телефон: +7 (983) 252-11-74</p>
+                        
+                        <div style="margin-top: 1rem;">
+                            <h3>Соцсети</h3>
+                            <div class="social-links">
+                                <a href="#" aria-label="ВКонтакте">📱</a>
+                                <a href="#" aria-label="Telegram">✉️</a>
+                                <a href="#" aria-label="GitHub">💻</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 1; min-width: 250px;">
+                        <h3>Стек технологий</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span class="tag">Kotlin</span>
+                            <span class="tag">Jetpack Compose</span>
+                            <span class="tag">C#</span>
+                            <span class="tag">WPF</span>
+                            <span class="tag">MVVM</span>
+                            <span class="tag">SQLite</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма обратной связи Netlify -->
+                <form name="contact" netlify>
+                    <h3 style="margin-top: 2rem;">Свяжитесь со мной</h3>
+                    <p>
+                        <label>Имя <input type="text" name="name" /></label>
+                    </p>
+                    <p>
+                        <label>Email <input type="email" name="email" /></label>
+                    </p>
+                    <p>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Radiator Apps</h3>
+                <p>Инновационные решения для учета радиаторов отопления на всех платформах.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Быстрые ссылки</h3>
+                <ul class="footer-links">
+                    <li><a href="#pc-app">Для ПК</a></li>
+                    <li><a href="#mobile-app">Мобильное приложение</a></li>
+                    <li><a href="#about">О разработчике</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Разработчик</h3>
+                <p>Горностаева Тамара Николаевна</p>
+                <p>Мобильный разработчик</p>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Radiator Apps. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Переключатель темы -->
+    <button class="theme-toggle" id="themeToggle">
+        🌓
+    </button>
+
+    <script>
+        // Переключение темы
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        
+        // Проверяем сохраненную тему
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.setAttribute('data-theme', savedTheme);
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Анимация кнопки
+            themeToggle.style.transform = 'scale(1.1) rotate(180deg)';
+            setTimeout(() => {
+                themeToggle.style.transform = 'scale(1) rotate(0)';
+            }, 300);
+        });
+
+        // Плавный скролл для якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('h1, h2, h3, .card, .btn');
+            
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>
